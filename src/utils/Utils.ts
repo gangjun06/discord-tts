@@ -4,7 +4,7 @@ import config from '../config'
 import { KakaoVoiceType } from './Constants'
 
 export const sendVoice = async (type: KakaoVoiceType, content: string) => {
-  return await fetch(`https://fakestoreapi.com/products/1`, {
+  return await fetch(`https://kakaoi-newtone-openapi.kakao.com/v1/synthesize`, {
     method: 'POST',
     headers: {
       Authorization: `KakaoAK ${config.kakaoApiKey}`,

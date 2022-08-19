@@ -62,7 +62,7 @@ export default new Event('interactionCreate', async (client, interaction) => {
     } catch (error: any) {
       errorManager.report(error, { executer: interaction, isSend: true })
     }
-  } else if (interaction.type === DInteractionType.ModalSubmit) {
+  } else if (interaction.isModalSubmit()) {
     const interactionData = interactionManager.get(interaction.customId)
 
     if (!interactionData) return
@@ -73,9 +73,7 @@ export default new Event('interactionCreate', async (client, interaction) => {
     } catch (error: any) {
       errorManager.report(error, { executer: interaction, isSend: true })
     }
-  } else if (
-    interaction.type === DInteractionType.ApplicationCommandAutocomplete
-  ) {
+  } else if (interaction.isAutocomplete()) {
     const interactionData = interactionManager.get(interaction.commandName)
 
     if (!interactionData) return

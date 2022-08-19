@@ -11,6 +11,7 @@ import { BaseInteraction } from './Interaction'
 import Dokdo from 'dokdo'
 import InteractionManager from '../managers/InteractionManager'
 import * as Utils from '../utils/Utils'
+import { VoiceConnection } from '@discordjs/voice'
 
 const logger = new Logger('bot')
 
@@ -23,7 +24,8 @@ export default class BotClient extends Client {
   public events: Collection<keyof ClientEvents, Event> = new Collection()
   public errors: Collection<string, string> = new Collection()
   public interactions: Collection<string, BaseInteraction> = new Collection()
-  public utils = Utils
+  public connections: Collection<string, VoiceConnection> = new Collection()
+
   public command: CommandManager = new CommandManager(this)
   public event: EventManager = new EventManager(this)
   public error: ErrorManager = new ErrorManager(this)
