@@ -1,27 +1,20 @@
-## Build
-FROM golang:1.18-alpine AS build
+FROM node:16-alpine
 
-WORKDIR /build
+WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
-RUN apk add --update --no-cache pkgconfig opus-dev build-base
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh python3 build-base
 
-COPY . ./
+COPY package.json /app/
+COPY yarn.lock /app/
+COPY .yarn/ /app/.yarn/
+COPY .yarnrc.yml /app/
 
-RUN go build -o main .
+RUN yarn install
+RUN yarn cache clean
 
-## Deploy
-FROM alpine
+COPY . /app/
 
-RUN apk add --no-cache sox ffmpeg
+RUN yarn build
 
-WORKDIR /
-
-COPY --from=build /build/main /main
-COPY  __files /__files
-
-RUN mkdir __temp
-
-CMD ["./main"]
+CMD yarn start:node
